@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>$OCTOVALVE — Hidden in Every Tesla Model Y</title>
+<meta name="description" content="The Octovalve is Tesla's most ingenious engineering easter egg. A rotary valve with 8 ports and 5 positions, hidden inside every Model Y.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0a;
+  --bg-card: rgba(255,255,255,0.03);
+  --red: #e31937;
+  --red-dark: #b8142d;
+  --red-glow: rgba(227,25,55,0.4);
+  --red-glow-soft: rgba(227,25,55,0.15);
+  --text: #f0f0f0;
+  --text-dim: #888;
+  --text-muted: #555;
+  --border: rgba(255,255,255,0.06);
+  --border-hover: rgba(255,255,255,0.12);
+  --font-display: 'Orbitron', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --glass-bg: rgba(255,255,255,0.04);
+  --glass-border: rgba(255,255,255,0.08);
+  --max-w: 1200px;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+a { color: var(--red); text-decoration: none; transition: color .2s; }
+a:hover { color: #ff3050; }
+
+/* ===== SPLASH SCREEN ===== */
+#splash {
+  position: fixed; inset:0; z-index:9999;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center; flex-direction: column;
+  transition: opacity .6s ease, visibility .6s ease;
+}
+#splash.hidden { opacity:0; visibility:hidden; pointer-events:none; }
+#splash h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem,8vw,5rem);
+  font-weight: 900;
+  letter-spacing: .15em;
+  color: var(--red);
+  text-shadow: 0 0 40px var(--red-glow), 0 0 80px var(--red-glow-soft);
+  animation: splashPulse 1.2s ease-in-out infinite alternate;
+}
+#splash .loader {
+  margin-top: 2rem;
+  width: 120px; height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+#splash .loader::after {
+  content:'';
+  position:absolute; left:0; top:0; height:100%; width:40%;
+  background: var(--red);
+  border-radius: 2px;
+  animation: loaderSlide 1s ease-in-out infinite;
+}
+@keyframes splashPulse {
+  from { text-shadow: 0 0 40px var(--red-glow), 0 0 80px var(--red-glow-soft); }
+  to { text-shadow: 0 0 60px var(--red-glow), 0 0 120px rgba(227,25,55,0.25); }
+}
+@keyframes loaderSlide {
+  0% { left:-40%; } 100% { left:100%; }
+}
+#splash .octopus-splash {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+/* ===== NAVBAR ===== */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:100;
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 1.5rem;
+  transition: transform .3s ease;
+}
+nav.nav-hidden { transform: translateY(-100%); }
+.nav-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+}
+.nav-logo {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--red);
+  letter-spacing: .08em;
+  display:flex; align-items:center; gap:.5rem;
+}
+.nav-logo span { font-size:1.3rem; }
+.nav-links { display:flex; align-items:center; gap:1.5rem; list-style:none; }
+.nav-links a {
+  color: var(--text-dim);
+  font-size: .85rem;
+  font-weight: 500;
+  letter-spacing: .03em;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-buy {
+  background: var(--red);
+  color: #fff !important;
+  padding: .5rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: .85rem;
+  transition: background .2s, box-shadow .2s;
+}
+.nav-buy:hover {
+  background: var(--red-dark);
+  box-shadow: 0 0 20px var(--red-glow);
+}
+.nav-x {
+  display:flex; align-items:center;
+  color: var(--text-dim) !important;
+  font-size:1.1rem;
+}
+.nav-x:hover { color: var(--text) !important; }
+.hamburger {
+  display:none; background:none; border:none; cursor:pointer;
+  flex-direction:column; gap:5px; padding:4px;
+}
+.hamburger span {
+  display:block; width:24px; height:2px; background:var(--text);
+  transition: transform .3s, opacity .3s;
+}
+.hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+.hamburger.open span:nth-child(2) { opacity:0; }
+.hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+.mobile-menu {
+  display:none;
+  position:fixed; top:64px; left:0; right:0; bottom:0;
+  background: rgba(10,10,10,0.95);
+  backdrop-filter: blur(20px);
+  flex-direction:column; align-items:center; justify-content:center; gap:2rem;
+  z-index:99;
+}
+.mobile-menu.open { display:flex; }
+.mobile-menu a {
+  font-family: var(--font-display);
+  font-size:1.2rem;
+  color: var(--text-dim);
+  font-weight:600;
+}
+.mobile-menu a:hover { color: var(--text); }
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align: center;
+  padding: 120px 1.5rem 60px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content:'';
+  position:absolute; top:-50%; left:-50%;
+  width:200%; height:200%;
+  background: radial-gradient(ellipse at 50% 30%, var(--red-glow-soft) 0%, transparent 60%);
+  pointer-events:none;
+  animation: heroGlow 8s ease-in-out infinite alternate;
+}
+@keyframes heroGlow {
+  from { opacity:.6; } to { opacity:1; }
+}
+.hero-octopus {
+  font-size: 5rem;
+  animation: float 3s ease-in-out infinite;
+  position:relative; z-index:1;
+}
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem,6vw,3.8rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin: 1rem 0;
+  position:relative; z-index:1;
+}
+.hero h1 .accent { color: var(--red); }
+.hero .subtitle {
+  font-size: clamp(1rem,2.5vw,1.25rem);
+  color: var(--text-dim);
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  position:relative; z-index:1;
+}
+.hero-buttons {
+  display:flex; gap:1rem; flex-wrap:wrap; justify-content:center;
+  position:relative; z-index:1;
+}
+.btn {
+  display:inline-flex; align-items:center; gap:.5rem;
+  padding: .75rem 1.8rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: .95rem;
+  transition: all .25s;
+  cursor:pointer; border:none;
+}
+.btn-primary {
+  background: var(--red);
+  color:#fff;
+}
+.btn-primary:hover {
+  background: var(--red-dark);
+  box-shadow: 0 0 30px var(--red-glow);
+  transform: translateY(-2px);
+  color:#fff;
+}
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  color: var(--text);
+}
+.btn-outline:hover {
+  border-color: var(--red);
+  color: var(--red);
+  transform: translateY(-2px);
+}
+
+/* ===== CAROUSEL ===== */
+.carousel-wrap {
+  position:relative; z-index:1;
+  width: 100%; max-width: 700px;
+  margin: 2.5rem auto 0;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+}
+.carousel {
+  display:flex;
+  transition: transform .5s ease;
+}
+.carousel-slide {
+  min-width:100%;
+  aspect-ratio: 16/9;
+  display:flex; align-items:center; justify-content:center;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight:600;
+  color: var(--text-dim);
+  padding:2rem;
+  text-align:center;
+}
+.carousel-slide:nth-child(1) { background: linear-gradient(135deg, #1a0a0e, #0a0a0a); }
+.carousel-slide:nth-child(2) { background: linear-gradient(135deg, #0a0e1a, #0a0a0a); }
+.carousel-slide:nth-child(3) { background: linear-gradient(135deg, #0a1a0e, #0a0a0a); }
+.carousel-slide:nth-child(4) { background: linear-gradient(135deg, #1a1a0a, #0a0a0a); }
+.carousel-dots {
+  display:flex; justify-content:center; gap:.5rem;
+  padding: .75rem 0;
+  background: rgba(10,10,10,0.8);
+}
+.carousel-dot {
+  width:8px; height:8px; border-radius:50%;
+  background: var(--text-muted);
+  border:none; cursor:pointer;
+  transition: background .2s, transform .2s;
+}
+.carousel-dot.active { background: var(--red); transform: scale(1.3); }
+
+/* ===== STATS ===== */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 1.5rem;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+}
+.stat-card {
+  text-align:center;
+  padding: 2rem 1rem;
+  border-radius: 16px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px);
+  transition: border-color .3s, box-shadow .3s;
+}
+.stat-card:hover {
+  border-color: var(--red);
+  box-shadow: 0 0 30px var(--red-glow-soft);
+}
+.stat-num {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem,4vw,2.5rem);
+  font-weight: 800;
+  color: var(--red);
+}
+.stat-label {
+  font-size: .85rem;
+  color: var(--text-dim);
+  margin-top: .5rem;
+}
+
+/* ===== SECTIONS ===== */
+section {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
+}
+.section-tag {
+  font-family: var(--font-display);
+  font-size: .7rem;
+  letter-spacing: .2em;
+  color: var(--red);
+  text-transform: uppercase;
+  margin-bottom: .75rem;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem,4vw,2.5rem);
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+.section-sub {
+  color: var(--text-dim);
+  max-width: 650px;
+  margin-bottom: 3rem;
+  font-size: 1.05rem;
+}
+
+/* ===== GLASS CARDS ===== */
+.glass-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+  transition: border-color .3s, transform .3s, box-shadow .3s;
+}
+.glass-card:hover {
+  border-color: rgba(227,25,55,0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 40px var(--red-glow-soft);
+}
+.gradient-border {
+  position:relative;
+}
+.gradient-border::before {
+  content:'';
+  position:absolute; inset:-1px;
+  border-radius: 17px;
+  padding:1px;
+  background: linear-gradient(135deg, var(--red), transparent 50%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events:none;
+  opacity:0;
+  transition: opacity .3s;
+}
+.gradient-border:hover::before { opacity:1; }
+
+/* ===== ABOUT ===== */
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 2rem;
+}
+.about-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  margin-bottom: .75rem;
+  display:flex; align-items:center; gap:.5rem;
+}
+.about-card p { color: var(--text-dim); font-size:.95rem; line-height:1.7; }
+
+/* ===== PROOF ===== */
+.proof-grid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 1.5rem;
+}
+.proof-card .proof-source {
+  font-family: var(--font-display);
+  font-size: .65rem;
+  letter-spacing: .15em;
+  color: var(--red);
+  text-transform:uppercase;
+  margin-bottom: .5rem;
+}
+.proof-card h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: .5rem;
+}
+.proof-card p { color: var(--text-dim); font-size:.9rem; line-height:1.6; }
+.proof-card .proof-date { color:var(--text-muted); font-size:.8rem; margin-top:.75rem; }
+
+/* ===== BOT ===== */
+.bot-header { text-align:center; margin-bottom:3rem; }
+.tweets-grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
+  gap:1.5rem;
+}
+.tweet-card {
+  padding:1.5rem;
+}
+.tweet-handle {
+  font-weight:600; font-size:.9rem; color:var(--red);
+  margin-bottom:.5rem;
+  display:flex; align-items:center; gap:.5rem;
+}
+.tweet-handle img, .tweet-handle .avatar {
+  width:32px; height:32px; border-radius:50%;
+  background: var(--red-glow-soft);
+  display:flex; align-items:center; justify-content:center;
+  font-size:.9rem;
+}
+.tweet-text { color:var(--text-dim); font-size:.9rem; line-height:1.6; }
+
+/* ===== MISSION ===== */
+.mission {
+  text-align:center;
+  padding: 6rem 1.5rem;
+}
+.mission .section-title {
+  max-width: 700px;
+  margin: 0 auto 1.5rem;
+}
+.mission .section-sub { margin: 0 auto 2rem; }
+.mission-emoji { font-size:4rem; margin-bottom:1.5rem; animation: float 3s ease-in-out infinite; }
+
+/* ===== FOOTER ===== */
+footer {
+  border-top:1px solid var(--border);
+  padding: 3rem 1.5rem;
+  text-align:center;
+}
+.footer-inner {
+  max-width: var(--max-w);
+  margin:0 auto;
+}
+.footer-links {
+  display:flex; justify-content:center; gap:2rem;
+  margin-bottom:1.5rem; flex-wrap:wrap;
+}
+.footer-links a { color:var(--text-dim); font-size:.85rem; }
+.footer-links a:hover { color:var(--text); }
+.footer-disclaimer {
+  color:var(--text-muted);
+  font-size:.75rem;
+  max-width:600px;
+  margin:0 auto;
+  line-height:1.6;
+}
+.footer-ca {
+  margin-top:1rem;
+  font-family: var(--font-display);
+  font-size:.7rem;
+  color:var(--text-muted);
+  letter-spacing:.05em;
+}
+
+/* ===== FLOATING CTA ===== */
+.floating-cta {
+  position:fixed; bottom:1.5rem; right:1.5rem; z-index:90;
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+@keyframes pulseGlow {
+  0%,100% { box-shadow: 0 0 20px var(--red-glow-soft); }
+  50% { box-shadow: 0 0 40px var(--red-glow); }
+}
+
+/* ===== SCROLL ANIMATIONS ===== */
+.reveal {
+  opacity:0;
+  transform: translateY(30px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.reveal.visible {
+  opacity:1;
+  transform: translateY(0);
+}
+
+/* ===== SCAN LINE ===== */
+.scan-line::after {
+  content:'';
+  position:absolute; top:0; left:0; right:0;
+  height:2px;
+  background: linear-gradient(90deg, transparent, var(--red), transparent);
+  animation: scanLine 3s linear infinite;
+  opacity:.3;
+}
+@keyframes scanLine {
+  0% { top:0; } 100% { top:100%; }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width:768px) {
+  .nav-links { display:none; }
+  .hamburger { display:flex; }
+  .stats { grid-template-columns: repeat(2,1fr); gap:1rem; }
+  .about-grid, .proof-grid { grid-template-columns:1fr; }
+  .hero h1 { font-size: clamp(1.6rem,7vw,2.5rem); }
+  .hero-octopus { font-size:3.5rem; }
+  section { padding:3rem 1rem; }
+}
+@media (max-width:480px) {
+  .stats { grid-template-columns:1fr 1fr; }
+  .stat-card { padding:1.25rem .75rem; }
+  .hero-buttons { flex-direction:column; align-items:center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== SPLASH SCREEN ===== -->
+<div id="splash">
+  <div class="octopus-splash">🐙</div>
+  <h1>OCTOVALVE</h1>
+  <div class="loader"></div>
+</div>
+
+<!-- ===== NAVBAR ===== -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo"><span>🐙</span> OCTOVALVE</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#proof">Proof</a></li>
+      <li><a href="#bot">Bot</a></li>
+      <li><a href="#mission">Mission</a></li>
+      <li><a href="#" class="nav-buy">Buy $OCTOVALVE</a></li>
+      <li><a href="https://x.com/OctovalveSol" target="_blank" class="nav-x">𝕏</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" class="mobile-link">About</a>
+  <a href="#proof" class="mobile-link">Proof</a>
+  <a href="#bot" class="mobile-link">Bot</a>
+  <a href="#mission" class="mobile-link">Mission</a>
+  <a href="#" class="btn btn-primary">Buy $OCTOVALVE</a>
+  <a href="https://x.com/OctovalveSol" target="_blank">𝕏 @OctovalveSol</a>
+</div>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-octopus">🐙</div>
+  <h1>Hidden in Every<br><span class="accent">Tesla Model Y</span></h1>
+  <p class="subtitle">The Octovalve is Tesla's most brilliant piece of thermal engineering — a rotary valve with 8 ports and 5 positions, controlling the entire heat pump system. And nobody talks about it.</p>
+  <div class="hero-buttons">
+    <a href="#" class="btn btn-primary">🚀 Buy on pump.fun</a>
+    <a href="https://x.com/OctovalveSol" target="_blank" class="btn btn-outline">𝕏 View on X</a>
+  </div>
+  <div class="carousel-wrap">
+    <div class="carousel" id="carousel">
+      <div class="carousel-slide">🔧 The Octovalve — 8-port rotary valve managing all thermal flows in Model Y</div>
+      <div class="carousel-slide">🌡️ Heat Pump System — Replaced the Model 3 "Superbottle" with superior efficiency</div>
+      <div class="carousel-slide">⚡ 5 Positions — Battery heating, cabin cooling, motor thermal management & more</div>
+      <div class="carousel-slide">🐙 One valve to rule them all — replaces multiple individual valves</div>
+    </div>
+    <div class="carousel-dots" id="carouselDots">
+      <button class="carousel-dot active" data-index="0"></button>
+      <button class="carousel-dot" data-index="1"></button>
+      <button class="carousel-dot" data-index="2"></button>
+      <button class="carousel-dot" data-index="3"></button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATS ===== -->
+<div class="stats">
+  <div class="stat-card reveal">
+    <div class="stat-num" data-target="2000000" data-prefix="" data-suffix="+">0</div>
+    <div class="stat-label">Model Ys with Octovalve</div>
+  </div>
+  <div class="stat-card reveal">
+    <div class="stat-num" data-target="8">0</div>
+    <div class="stat-label">Ports</div>
+  </div>
+  <div class="stat-card reveal">
+    <div class="stat-num" data-target="5">0</div>
+    <div class="stat-label">Positions</div>
+  </div>
+  <div class="stat-card reveal">
+    <div class="stat-num" data-target="0">0</div>
+    <div class="stat-label">Times Acknowledged</div>
+  </div>
+</div>
+
+<!-- ===== ABOUT ===== -->
+<section id="about">
+  <div class="section-tag reveal">About</div>
+  <h2 class="section-title reveal">What is the Octovalve? 🐙</h2>
+  <p class="section-sub reveal">The most advanced thermal management component in any production vehicle — hiding in plain sight inside every Tesla Model Y since 2020.</p>
+  <div class="about-grid">
+    <div class="glass-card gradient-border about-card reveal">
+      <h3>🔍 The Hidden Easter Egg</h3>
+      <p>Deep inside every Tesla Model Y sits a single rotary valve with 8 coolant ports and 5 discrete positions. Called the "Octovalve," it orchestrates the entire thermal management system — routing coolant between the battery pack, drive motors, cabin HVAC, and heat pump with a single elegant mechanism. It's a real, physical component that replaced the Model 3's collection of individual solenoid valves, yet Tesla has never given it the recognition it deserves.</p>
+    </div>
+    <div class="glass-card gradient-border about-card reveal">
+      <h3>⚡ Why It Matters</h3>
+      <p>The Model 3 used a "Superbottle" — a manifold combining multiple valves and a coolant reservoir. The Model Y's Octovalve took that concept and leapfrogged it. By consolidating all thermal routing into one rotary actuator, Tesla achieved fewer failure points, faster thermal response times, and the ability to run a proper heat pump system in cold weather. Elon Musk himself called the heat pump engineering "some of the best engineering I've ever seen." Yet the Octovalve remains unacknowledged.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROOF ===== -->
+<section id="proof">
+  <div class="section-tag reveal">Evidence</div>
+  <h2 class="section-title reveal">The Proof is Undeniable</h2>
+  <p class="section-sub reveal">From Elon's own tweets to professional teardowns — the Octovalve is real and documented.</p>
+  <div class="proof-grid">
+    <div class="glass-card gradient-border proof-card reveal">
+      <div class="proof-source">Elon Musk — Twitter/X</div>
+      <h3>"Some of the best engineering I've ever seen"</h3>
+      <p>Elon Musk publicly praised the Model Y heat pump system — the very system powered by the Octovalve — calling its engineering exceptional. The tweet went viral, yet the Octovalve itself was never named.</p>
+      <div class="proof-date">March 24, 2020</div>
+    </div>
+    <div class="glass-card gradient-border proof-card reveal">
+      <div class="proof-source">InsideEVs</div>
+      <h3>Model Y Heat Pump Deep Dive</h3>
+      <p>InsideEVs published a detailed analysis of the Model Y's heat pump system, documenting how the Octovalve's 8-port design enables 5 distinct thermal routing configurations — from battery preconditioning to cabin heat recapture.</p>
+      <div class="proof-date">2020</div>
+    </div>
+    <div class="glass-card gradient-border proof-card reveal">
+      <div class="proof-source">E-Mobility Engineering</div>
+      <h3>Octovalve Teardown Analysis</h3>
+      <p>Professional engineering teardown confirmed the Octovalve is a single rotary actuator managing all coolant pathways. The analysis highlighted how it reduces complexity vs. the Model 3's multiple solenoid valve approach.</p>
+      <div class="proof-date">2021</div>
+    </div>
+    <div class="glass-card gradient-border proof-card reveal">
+      <div class="proof-source">Munro & Associates</div>
+      <h3>Sandy Munro's Model Y Teardown</h3>
+      <p>Munro Live's comprehensive Model Y teardown identified the Octovalve as a key engineering innovation, noting its elegant simplicity in managing the vehicle's entire thermal system through a single component.</p>
+      <div class="proof-date">2021</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BOT ===== -->
+<section id="bot">
+  <div class="bot-header">
+    <div class="section-tag reveal">The Bot</div>
+    <h2 class="section-title reveal">We Reply to Every Post 🐙</h2>
+    <p class="section-sub reveal" style="margin:0 auto 3rem">Our AI bot monitors Elon and Tesla posts 24/7 — replying with Octovalve facts whenever thermal engineering comes up.</p>
+  </div>
+  <div class="tweets-grid">
+    <div class="glass-card tweet-card reveal">
+      <div class="tweet-handle"><div class="avatar">🐙</div> @OctovalveSol</div>
+      <p class="tweet-text">@elaborateElona Fun fact: the Model Y heat pump you're praising uses a single 8-port rotary valve called the Octovalve. It replaced the Model 3's Superbottle and manages ALL thermal flows. When will Tesla acknowledge this masterpiece? 🐙 $OCTOVALVE</p>
+    </div>
+    <div class="glass-card tweet-card reveal">
+      <div class="tweet-handle"><div class="avatar">🐙</div> @OctovalveSol</div>
+      <p class="tweet-text">@Tesla The Octovalve has 8 ports. 5 positions. It controls battery temp, cabin HVAC, and motor cooling with ONE rotary valve. 2M+ Model Ys have it. 0 acknowledgements. We're not stopping. 🐙 $OCTOVALVE</p>
+    </div>
+    <div class="glass-card tweet-card reveal">
+      <div class="tweet-handle"><div class="avatar">🐙</div> @OctovalveSol</div>
+      <p class="tweet-text">Elon said Model Y heat pump = "some of the best engineering I've ever seen." The Octovalve IS that engineering. A single valve managing the entire thermal system. Give it its flowers. 🐙 $OCTOVALVE</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MISSION ===== -->
+<section id="mission" class="mission">
+  <div class="mission-emoji reveal">🐙</div>
+  <div class="section-tag reveal">The Mission</div>
+  <h2 class="section-title reveal">The campaign won't stop until Tesla officially acknowledges the Octovalve</h2>
+  <p class="section-sub reveal">Every Model Y owner deserves to know about the rotary masterpiece hidden beneath their vehicle. We won't rest until Elon tweets "Octovalve." Join the movement.</p>
+  <div class="hero-buttons reveal">
+    <a href="#" class="btn btn-primary">🚀 Buy $OCTOVALVE</a>
+    <a href="https://x.com/OctovalveSol" target="_blank" class="btn btn-outline">𝕏 Follow the Mission</a>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="#about">About</a>
+      <a href="#proof">Proof</a>
+      <a href="#bot">Bot</a>
+      <a href="#mission">Mission</a>
+      <a href="https://x.com/OctovalveSol" target="_blank">𝕏 Twitter</a>
+      <a href="#">pump.fun</a>
+    </div>
+    <p class="footer-disclaimer">$OCTOVALVE is a community token on Solana. This is not financial advice. Not affiliated with Tesla, Inc. The Octovalve is a real component inside Tesla Model Y vehicles — we just think it deserves recognition. DYOR.</p>
+    <p class="footer-ca">CA: COMING SOON</p>
+  </div>
+</footer>
+
+<!-- ===== FLOATING CTA ===== -->
+<a href="#" class="btn btn-primary floating-cta" id="floatingCta" style="display:none">🐙 Buy $OCTOVALVE</a>
+
+<script>
+// ===== SPLASH SCREEN =====
+setTimeout(() => {
+  document.getElementById('splash').classList.add('hidden');
+}, 2500);
+
+// ===== MOBILE MENU =====
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+});
+document.querySelectorAll('.mobile-link').forEach(link => {
+  link.addEventListener('click', () => {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+  });
+});
+
+// ===== NAVBAR HIDE/SHOW ON SCROLL =====
+let lastScroll = 0;
+const nav = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  const cur = window.scrollY;
+  if (cur > lastScroll && cur > 100) nav.classList.add('nav-hidden');
+  else nav.classList.remove('nav-hidden');
+  lastScroll = cur;
+
+  // Show floating CTA after scrolling past hero
+  const cta = document.getElementById('floatingCta');
+  cta.style.display = cur > window.innerHeight ? 'inline-flex' : 'none';
+}, { passive: true });
+
+// ===== SCROLL REVEAL =====
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ===== COUNTER ANIMATION =====
+const counters = document.querySelectorAll('.stat-num');
+let countersDone = false;
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !countersDone) {
+      countersDone = true;
+      counters.forEach(c => {
+        const target = +c.dataset.target;
+        const prefix = c.dataset.prefix || '';
+        const suffix = c.dataset.suffix || '';
+        if (target === 0) { c.textContent = prefix + '0' + suffix; return; }
+        const duration = 2000;
+        const steps = 60;
+        const increment = target / steps;
+        let current = 0;
+        const timer = setInterval(() => {
+          current += increment;
+          if (current >= target) {
+            current = target;
+            clearInterval(timer);
+          }
+          let display = current >= 1000000
+            ? (current/1000000).toFixed(current >= target ? 0 : 1) + 'M'
+            : Math.floor(current).toLocaleString();
+          c.textContent = prefix + display + suffix;
+        }, duration / steps);
+      });
+    }
+  });
+}, { threshold: 0.3 });
+counters.forEach(c => counterObserver.observe(c));
+
+// ===== CAROUSEL =====
+const carousel = document.getElementById('carousel');
+const dots = document.querySelectorAll('.carousel-dot');
+let slideIndex = 0;
+const slideCount = document.querySelectorAll('.carousel-slide').length;
+
+function goToSlide(i) {
+  slideIndex = i;
+  carousel.style.transform = `translateX(-${i * 100}%)`;
+  dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
+}
+dots.forEach(d => d.addEventListener('click', () => goToSlide(+d.dataset.index)));
+setInterval(() => goToSlide((slideIndex + 1) % slideCount), 4000);
+</script>
+</body>
+</html>

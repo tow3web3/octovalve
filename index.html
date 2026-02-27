@@ -12,10 +12,10 @@
 :root {
   --bg: #0a0a0a;
   --bg-card: rgba(255,255,255,0.03);
-  --red: #e31937;
-  --red-dark: #b8142d;
-  --red-glow: rgba(227,25,55,0.4);
-  --red-glow-soft: rgba(227,25,55,0.15);
+  --red: #c0c0c0;
+  --red-dark: #a0a0a0;
+  --red-glow: rgba(192,192,192,0.4);
+  --red-glow-soft: rgba(192,192,192,0.15);
   --text: #f0f0f0;
   --text-dim: #888;
   --text-muted: #555;
@@ -37,7 +37,7 @@ body {
   overflow-x: hidden;
 }
 a { color: var(--red); text-decoration: none; transition: color .2s; }
-a:hover { color: #ff3050; }
+a:hover { color: #e0e0e0; }
 
 /* ===== SPLASH SCREEN ===== */
 #splash {
@@ -73,7 +73,7 @@ a:hover { color: #ff3050; }
 }
 @keyframes splashPulse {
   from { text-shadow: 0 0 40px var(--red-glow), 0 0 80px var(--red-glow-soft); }
-  to { text-shadow: 0 0 60px var(--red-glow), 0 0 120px rgba(227,25,55,0.25); }
+  to { text-shadow: 0 0 60px var(--red-glow), 0 0 120px rgba(192,192,192,0.25); }
 }
 @keyframes loaderSlide {
   0% { left:-40%; } 100% { left:100%; }
@@ -357,7 +357,7 @@ section {
   transition: border-color .3s, transform .3s, box-shadow .3s;
 }
 .glass-card:hover {
-  border-color: rgba(227,25,55,0.3);
+  border-color: rgba(192,192,192,0.3);
   transform: translateY(-4px);
   box-shadow: 0 8px 40px var(--red-glow-soft);
 }
@@ -552,7 +552,7 @@ footer {
       <li><a href="#bot">Bot</a></li>
       <li><a href="#mission">Mission</a></li>
       <li><a href="#" class="nav-buy">Buy $OCTOVALVE</a></li>
-      <li><a href="https://x.com/OctovalveSol" target="_blank" class="nav-x">𝕏</a></li>
+      <li><a href="https://x.com/_Octovalve" target="_blank" class="nav-x">𝕏</a></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -565,7 +565,7 @@ footer {
   <a href="#bot" class="mobile-link">Bot</a>
   <a href="#mission" class="mobile-link">Mission</a>
   <a href="#" class="btn btn-primary">Buy $OCTOVALVE</a>
-  <a href="https://x.com/OctovalveSol" target="_blank">𝕏 @OctovalveSol</a>
+  <a href="https://x.com/_Octovalve" target="_blank">𝕏 @_Octovalve</a>
 </div>
 
 <!-- ===== HERO ===== -->
@@ -575,14 +575,14 @@ footer {
   <p class="subtitle">The Octovalve is Tesla's most brilliant piece of thermal engineering — a rotary valve with 8 ports and 5 positions, controlling the entire heat pump system. And nobody talks about it.</p>
   <div class="hero-buttons">
     <a href="#" class="btn btn-primary">🚀 Buy on pump.fun</a>
-    <a href="https://x.com/OctovalveSol" target="_blank" class="btn btn-outline">𝕏 View on X</a>
+    <a href="https://x.com/_Octovalve" target="_blank" class="btn btn-outline">𝕏 View on X</a>
   </div>
   <div class="carousel-wrap">
     <div class="carousel" id="carousel">
-      <div class="carousel-slide" style="background:url('octovalve_closeup.jpg') center/cover no-repeat"><span style="position:absolute;bottom:12px;left:12px;background:rgba(227,25,55,.8);padding:4px 12px;border-radius:20px;font-family:var(--font-display);font-size:11px;font-weight:700">THE OCTOVALVE — CLOSE UP</span></div>
-      <div class="carousel-slide" style="background:url('octovalve_installed.jpg') center/cover no-repeat"><span style="position:absolute;bottom:12px;left:12px;background:rgba(227,25,55,.8);padding:4px 12px;border-radius:20px;font-family:var(--font-display);font-size:11px;font-weight:700">INSTALLED IN MODEL Y</span></div>
-      <div class="carousel-slide">⚡ 5 Positions — Battery heating, cabin cooling, motor thermal management & more</div>
-      <div class="carousel-slide">🐙 One valve to rule them all — replaces multiple individual valves</div>
+      <div class="carousel-slide" style="background:url('octovalve_closeup.jpg') center/cover no-repeat"><span style="position:absolute;bottom:12px;left:12px;background:rgba(192,192,192,.8);padding:4px 12px;border-radius:20px;font-family:var(--font-display);font-size:11px;font-weight:700;color:#0a0a0a">THE OCTOVALVE — CLOSE UP</span></div>
+      <div class="carousel-slide" style="background:url('octovalve_installed.jpg') center/cover no-repeat"><span style="position:absolute;bottom:12px;left:12px;background:rgba(192,192,192,.8);padding:4px 12px;border-radius:20px;font-family:var(--font-display);font-size:11px;font-weight:700;color:#0a0a0a">INSTALLED IN MODEL Y</span></div>
+      <div class="carousel-slide" style="background:url('pfp.jpg') center/contain no-repeat #111"><span style="position:absolute;bottom:12px;left:12px;background:rgba(192,192,192,.8);padding:4px 12px;border-radius:20px;font-family:var(--font-display);font-size:11px;font-weight:700;color:#0a0a0a">THE MASCOT</span></div>
+      <div class="carousel-slide" style="background:url('banner.jpg') center/cover no-repeat"><span style="position:absolute;bottom:12px;left:12px;background:rgba(192,192,192,.8);padding:4px 12px;border-radius:20px;font-family:var(--font-display);font-size:11px;font-weight:700;color:#0a0a0a">$OCTOVALVE</span></div>
     </div>
     <div class="carousel-dots" id="carouselDots">
       <button class="carousel-dot active" data-index="0"></button>
@@ -672,15 +672,15 @@ footer {
   </div>
   <div class="tweets-grid">
     <div class="glass-card tweet-card reveal">
-      <div class="tweet-handle"><div class="avatar">🐙</div> @OctovalveSol</div>
+      <div class="tweet-handle"><div class="avatar">🐙</div> @_Octovalve</div>
       <p class="tweet-text">@elaborateElona Fun fact: the Model Y heat pump you're praising uses a single 8-port rotary valve called the Octovalve. It replaced the Model 3's Superbottle and manages ALL thermal flows. When will Tesla acknowledge this masterpiece? 🐙 $OCTOVALVE</p>
     </div>
     <div class="glass-card tweet-card reveal">
-      <div class="tweet-handle"><div class="avatar">🐙</div> @OctovalveSol</div>
+      <div class="tweet-handle"><div class="avatar">🐙</div> @_Octovalve</div>
       <p class="tweet-text">@Tesla The Octovalve has 8 ports. 5 positions. It controls battery temp, cabin HVAC, and motor cooling with ONE rotary valve. 2M+ Model Ys have it. 0 acknowledgements. We're not stopping. 🐙 $OCTOVALVE</p>
     </div>
     <div class="glass-card tweet-card reveal">
-      <div class="tweet-handle"><div class="avatar">🐙</div> @OctovalveSol</div>
+      <div class="tweet-handle"><div class="avatar">🐙</div> @_Octovalve</div>
       <p class="tweet-text">Elon said Model Y heat pump = "some of the best engineering I've ever seen." The Octovalve IS that engineering. A single valve managing the entire thermal system. Give it its flowers. 🐙 $OCTOVALVE</p>
     </div>
   </div>
@@ -694,7 +694,7 @@ footer {
   <p class="section-sub reveal">Every Model Y owner deserves to know about the rotary masterpiece hidden beneath their vehicle. We won't rest until Elon tweets "Octovalve." Join the movement.</p>
   <div class="hero-buttons reveal">
     <a href="#" class="btn btn-primary">🚀 Buy $OCTOVALVE</a>
-    <a href="https://x.com/OctovalveSol" target="_blank" class="btn btn-outline">𝕏 Follow the Mission</a>
+    <a href="https://x.com/_Octovalve" target="_blank" class="btn btn-outline">𝕏 Follow the Mission</a>
   </div>
 </section>
 
@@ -706,7 +706,7 @@ footer {
       <a href="#proof">Proof</a>
       <a href="#bot">Bot</a>
       <a href="#mission">Mission</a>
-      <a href="https://x.com/OctovalveSol" target="_blank">𝕏 Twitter</a>
+      <a href="https://x.com/_Octovalve" target="_blank">𝕏 Twitter</a>
       <a href="#">pump.fun</a>
     </div>
     <p class="footer-disclaimer">$OCTOVALVE is a community token on Solana. This is not financial advice. Not affiliated with Tesla, Inc. The Octovalve is a real component inside Tesla Model Y vehicles — we just think it deserves recognition. DYOR.</p>
